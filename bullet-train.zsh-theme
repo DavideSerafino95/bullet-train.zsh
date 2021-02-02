@@ -28,6 +28,7 @@ if [ ! -n "${BULLETTRAIN_PROMPT_ORDER+1}" ]; then
     ruby
     virtualenv
     nvm
+    php
     aws
     go
     rust
@@ -98,13 +99,24 @@ fi
 
 # NVM
 if [ ! -n "${BULLETTRAIN_NVM_BG+1}" ]; then
-  BULLETTRAIN_NVM_BG=green
+  BULLETTRAIN_NVM_BG=120
 fi
 if [ ! -n "${BULLETTRAIN_NVM_FG+1}" ]; then
-  BULLETTRAIN_NVM_FG=white
+  BULLETTRAIN_NVM_FG=black
 fi
 if [ ! -n "${BULLETTRAIN_NVM_PREFIX+1}" ]; then
   BULLETTRAIN_NVM_PREFIX="⬡ "
+fi
+
+# PHP
+if [ ! -n "${BULLETTRAIN_PHP_BG+1}" ]; then
+  BULLETTRAIN_PHP_BG=21
+fi
+if [ ! -n "${BULLETTRAIN_PHP_FG+1}" ]; then
+  BULLETTRAIN_PHP_FG=white
+fi
+if [ ! -n "${BULLETTRAIN_PHP_PREFIX+1}" ]; then
+  BULLETTRAIN_PHP_PREFIX="🐘 "
 fi
 
 # AWS
@@ -184,10 +196,10 @@ fi
 
 # DIR
 if [ ! -n "${BULLETTRAIN_DIR_BG+1}" ]; then
-  BULLETTRAIN_DIR_BG=blue
+  BULLETTRAIN_DIR_BG=81
 fi
 if [ ! -n "${BULLETTRAIN_DIR_FG+1}" ]; then
-  BULLETTRAIN_DIR_FG=white
+  BULLETTRAIN_DIR_FG=black
 fi
 if [ ! -n "${BULLETTRAIN_DIR_CONTEXT_SHOW+1}" ]; then
   BULLETTRAIN_DIR_CONTEXT_SHOW=false
@@ -597,6 +609,18 @@ prompt_nvm() {
   fi
   nvm_prompt=${nvm_prompt}
   prompt_segment $BULLETTRAIN_NVM_BG $BULLETTRAIN_NVM_FG $BULLETTRAIN_NVM_PREFIX$nvm_prompt
+}
+
+# PHP Version
+prompt_php() {
+  local php_prompt
+  if type php >/dev/null 2>&1; then
+    php_prompt="$(php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")"
+  else
+    return
+  fi
+  php_prompt=${php_prompt}
+  prompt_segment $BULLETTRAIN_PHP_BG $BULLETTRAIN_PHP_FG $BULLETTRAIN_PHP_PREFIX$php_prompt
 }
 
 #AWS Profile
